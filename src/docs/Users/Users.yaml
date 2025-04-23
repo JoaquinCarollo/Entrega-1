@@ -1,0 +1,108 @@
+paths:
+  /api/mocks/mockingusers:
+    get:
+      summary: Generar a 50 usuarios
+      responses:
+        "200":
+          description: Los usuarios fueron generados exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                    description: status de la respuesta
+                  payload:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        "500":
+          description: Error interno del servidor
+  /api/mocks/users:
+    get:
+      summary: Obtener los usuarios
+      responses:
+        "200":
+          description: Los usuarios fueron generados exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                    description: status de la respuesta
+                  payload:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        "500":
+          description: Error interno del servidor
+  /api/mocks/generateData:
+    post:
+      summary: Generar usuarios y mascotas para nuestra base de datos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/generateData"
+      responses:
+        "200":
+          description: Los usuarios y mascotas fueron generados exitosamente
+          content:
+            application/json:
+              schema:
+                type: string
+                properties:
+                  status:
+                    type: string
+                    example: success
+                    description: status de la respuesta
+                  payload:
+                    type: string
+                    description: Datos insertados con éxito
+        "500":
+          description: Error interno del servidor
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id autogenerado por mongo
+        first_name:
+          type: string
+          description: Nombre del usuario
+        email:
+          type: string
+          description: Email del usuario
+        password:
+          type: string
+          description: Contraseña hasheada del usuario
+        role:
+          type: string
+          description: Rol del usuario
+        pets:
+          type: array
+          description: Mascotas del usuario
+          items:
+            type: string
+  requestBodies:
+    generateData:
+      type: object
+      properties:
+        userNumber:
+          type: Number
+          description: Cantidad de usuarios a añadir
+        petsNumber:
+          type: Number
+          description: Cantidad de mascotas a añadir
+      example:
+        userNumber: 10
+        petsNumber: 15
